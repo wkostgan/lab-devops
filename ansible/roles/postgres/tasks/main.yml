@@ -1,0 +1,30 @@
+- name: install postgres
+  apt:
+    name: postgresql
+    state: present
+    update_cache: yes
+
+- name: start postgres
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: install psycopg2
+  apt:
+    name: python3-psycopg2
+    state: present
+
+- name: create database
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: "{{ db_name }}"
+
+- name: create user
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_pass }}"
+    state: present

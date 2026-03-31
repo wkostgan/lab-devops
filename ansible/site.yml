@@ -1,0 +1,4 @@
+- hosts: vm-db
+  become: yes
+  roles:
+    - postgres
