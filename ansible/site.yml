@@ -2,3 +2,8 @@
   become: yes
   roles:
     - postgres
+
+- hosts: vm-docker,vm-monitoring
+  become: yes
+  roles:
+    - docker

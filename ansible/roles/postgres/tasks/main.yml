@@ -28,3 +28,12 @@
     name: "{{ db_user }}"
     password: "{{ db_pass }}"
     state: present
+
+- name: grant privileges on database
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    db: "{{ db_name }}"
+    role: "{{ db_user }}"
+    privs: ALL
+    type: database
