@@ -5,7 +5,11 @@
 - KVM/libvirt
 
 ## Rede
+- Brigde: br0 (rede externa)
 - NAT: 192.168.122.0/24
+
+Detalhes:
+- network/README.md
 
 ## VMs
 - vm-db
