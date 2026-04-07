@@ -1,0 +1,22 @@
+- hosts: vm-http
+  become: yes
+
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: start nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: create index page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Lab DevOps</h1>
+          <p>Servidor HTTP funcionando</p>

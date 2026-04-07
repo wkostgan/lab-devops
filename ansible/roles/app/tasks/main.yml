@@ -1,0 +1,8 @@
+- name: Copiar docker-compose
+  copy:
+    src: docker-compose.yml
+    dest: /home/devops/app/docker-compose.yml
+
+- name: Subir aplicação
+  community.docker.docker_compose_v2:
+    project_src: /home/devops/app

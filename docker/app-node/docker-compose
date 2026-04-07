@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    image: "wkostgan/app-node:{{ app_version }}"
+    container_name: {{app_name }}
+    ports:
+      - "{{ app_port }}:3000"
+    environment:
+      DB_HOST: {{ db_host }}
+      DB_USER: {{ db_user }}
+      DB_PASS: {{ db_pass }}
+      DB_NAME: {{ db_name }}
+    restart: always

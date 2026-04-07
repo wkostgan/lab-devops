@@ -1,0 +1,50 @@
+name: CI/CD - Docker + Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Definir tag da imagem
+        id: vars
+        run: echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build da imagem
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/app-node:${{ steps.vars.outputs.TAG }} .
+
+      - name: Push da imagem
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/app-node:${{ steps.vars.outputs.TAG }}
+
+      - name: Atualizar latest
+        run: |
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/app-node:${{ steps.vars.outputs.TAG }} \
+                     ${{ secrets.DOCKERHUB_USERNAME }}/app-node:latest
+
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/app-node:latest
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/lab-devops
+            git pull
+            ansible-playbook -i ansible/inventories/dev/hosts.ini ansible/playbooks/site.yml --tags app

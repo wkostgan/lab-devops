@@ -1,0 +1,15 @@
+- hosts: vm-db
+  become: yes
+  roles:
+    - postgres
+
+- hosts: vm-docker
+  become: yes
+  roles:
+    - docker
+    - app
+
+- hosts: vm-monitoring
+  become: yes
+  roles:
+    - docker

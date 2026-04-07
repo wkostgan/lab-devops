@@ -1,0 +1,24 @@
+*.log
+*.retry
+*.cache
+.env
+
+# Ansible
+*.retry
+
+# SSH
+*.pem
+id_rsa*
+id_ed25519*
+
+# Variáveis sensíveis
+*.vault.yml
+
+# Python (caso use futuramente)
+__pycache__/
+
+# OS
+.DS_Store
+
+# Docker 
+*.tar

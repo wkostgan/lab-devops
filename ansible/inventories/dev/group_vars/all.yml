@@ -1,0 +1,9 @@
+app_name: app-node
+app_port: 3000
+app_image: "wkostgan/app-node:{{ app_version }}"
+
+app_version: latest
+
+db_name: appdb
+db_user: devops
+db_pass: 123456
