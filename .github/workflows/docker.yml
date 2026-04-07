@@ -25,7 +25,9 @@ jobs:
 
       - name: Build da imagem
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/app-node:${{ steps.vars.outputs.TAG }} .
+          docker build \
+          -f docker/app-node/Dockerfile
+          -t ${{ secrets.DOCKERHUB_USERNAME }}/app-node:${{ steps.vars.outputs.TAG }} \ docker/app-node
 
       - name: Push da imagem
         run: |
