@@ -3,11 +3,16 @@ network:
   renderer: networkd
 
   ethernets:
-    eno2:
-      dhcp4: no
+      eno2:
+          dhcp4: no
 
-  bridges:
-    br0:
-      interfaces:
-        - eno2
-      dhcp4: yes
+  wifis:
+      wlo1:
+          dhcp4: yes
+          access-points:
+              "SEU_SSID":
+                  PASSWORD: "SUA_SENHA"
+      bridges:
+          br0:
+              interfaces: [eno2]
+              dhcp4: yes
